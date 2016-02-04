@@ -21,7 +21,6 @@ package ${genPackage}.manager.impl;
 import ${basePackageName}.repository.${baseEntityName}Dao;
 import ${baseEntityPackageName}.${baseEntityName};
 import ${basePackageName}.manager.${baseEntityName}Manager;
-import com.wuyu.plugin.datasource.annotation.DynamicDataSource;
 import com.wuyu.plugin.pager.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,6 @@ import java.util.Set;
  * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
-@DynamicDataSource
 @Component(value = "${bean.firstLower($baseEntityName)}Manager")
 public class ${baseEntityName}ManagerImpl implements ${baseEntityName}Manager{
 

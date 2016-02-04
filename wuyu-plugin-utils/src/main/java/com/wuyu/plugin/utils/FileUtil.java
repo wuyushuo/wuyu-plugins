@@ -60,6 +60,15 @@ public class FileUtil {
     }
 
     /**
+     *
+     * @param fileName
+     * @return
+     */
+    public static String getFileExtension(String fileName){
+        return FilenameUtils.getExtension(fileName);
+    }
+
+    /**
      * 列出目录文件<br>
      * 给定的绝对路径不能是压缩包中的路径
      *
