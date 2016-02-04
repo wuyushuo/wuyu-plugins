@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="127.0.0.1"/>
+		<property name="port" value="6379"/>
+	</bean>
+
+	<bean id="primaryIdRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory"/>
+	</bean>
+
+    <!-- redis repository -->
+	<bean id="primaryIdRedisRepository" class="com.wuyu.plugin.incrid.primaryid.impl.PrimaryIdRedisRepository">
+		<property name="redisTemplate" ref="primaryIdRedisTemplate" />
+	</bean>
+
+	<!--
+		CREATE TABLE `tb_incid` (
+		  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+		  `tmp` int(11) NOT NULL,
+		  PRIMARY KEY (`id`),
+		  UNIQUE KEY `tmp` (`tmp`)
+		) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+	-->
+	<bean id="primaryIdDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/db_increment"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+	</bean>
+
+	<bean id="primaryIdMysqlTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="primaryIdDataSource"/>
+	</bean>
+
+    <!-- mysql db repository -->
+	<bean id="primaryIdMysqlRepository" class="com.wuyu.plugin.incrid.primaryid.impl.PrimaryIdMysqlRepository">
+		<property name="jdbcTemplate" ref="primaryIdMysqlTemplate" />
+	</bean>
+
+</beans>

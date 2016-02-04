@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">  
+<properties>  
+	<comment>IK Analyzer</comment>
+	<entry key="ext_dict">nlpcn/ext.dic;</entry>
+	<entry key="ext_stopword">nlpcn/stopword.dic;</entry>
+	<entry key="ext_main2015">nlpcn/main2015.dic;</entry>
+	<entry key="ext_brand_ext">nlpcn/brand_ext.dic;</entry>
+	<entry key="ext_color_ext">nlpcn/color_ext.dic;</entry>
+	<entry key="ext_ext">nlpcn/ext.dic;</entry>
+	<entry key="ext_material_ext">nlpcn/material_ext.dic;</entry>
+	<entry key="ext_product_ext">nlpcn/product_ext.dic;</entry>
+</properties>

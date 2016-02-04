@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${genPackage}.repository.${baseEntityName}Dao">
+
+    <!--
+       =========================================
+       support for sql write operate dependence
+       =========================================
+    -->
+
+    <!-- insert object  -->
+    <insert id="insert" parameterType="${bean.firstLower($baseEntityName)}" flushCache="true">
+        <selectKey resultType="#foreach($propertyToPKey in $baseEntityTable.getPropertyPKeyType().entrySet())$propertyToPKey.value#end" keyProperty="object.#foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())$propertyToPKey.key#end" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end(<include refid="columnsWithOutPK"/>)
+        VALUES
+          (#foreach($propertyToColumn in $baseEntityTable.getPropertyToColumn().entrySet())${well}{object.$propertyToColumn.key}#if( $velocityCount >= 1 && $velocityCount < $baseEntityTable.getPropertyToColumn().size() ), #end#end)
+    </insert>
+
+    <!-- delete object by primary key-->
+    <delete id="delete" parameterType="#foreach($propertyToPKey in $baseEntityTable.getPropertyPKeyType().entrySet())$propertyToPKey.value#end" flushCache="true">
+        DELETE FROM
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end
+
+        WHERE
+        #foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())  $propertyToPKey.value#end=${well}{pKey}
+    </delete>
+
+    <!-- delete object by primary keys-->
+    <delete id="deleteMulti" flushCache="true">
+        DELETE FROM
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end
+
+        WHERE
+        #foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())  $propertyToPKey.value#end
+
+        IN
+        <foreach item="item" index="index" collection="pKeys" open="(" separator="," close=")">
+            ${well}{item}
+        </foreach>
+    </delete>
+
+    <!-- delete object with condition-->
+    <delete id="deleteObjects" parameterType="${bean.firstLower($baseEntityName)}" flushCache="true">
+        DELETE FROM
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end
+
+        WHERE
+          1=1
+          <include refid="selectCondition" />
+    </delete>
+
+    <!-- update object by primary key-->
+    <update id="update" parameterType="${bean.firstLower($baseEntityName)}" flushCache="true">
+        UPDATE
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end  <include refid="updateCondition" />
+        WHERE
+        #foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())  $propertyToPKey.value#end=${well}{object.#foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())$propertyToPKey.value#end}
+    </update>
+
+
+    <!--
+        =========================================
+        support for sql read operate dependence
+        =========================================
+     -->
+
+
+    <!-- select object by primaryKey  -->
+    <select id="select" parameterType="#foreach($propertyToPKey in $baseEntityTable.getPropertyPKeyType().entrySet())$propertyToPKey.value#end" resultType="${bean.firstLower($baseEntityName)}" useCache="true">
+        SELECT
+          <include refid="wholeColumnsToProperties" />
+        FROM
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end
+
+        WHERE
+        #foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())  $propertyToPKey.value#end=${well}{pKey}
+    </select>
+
+
+    <!-- select object by primaryKeys  -->
+    <select id="selectMulti" resultType="${bean.firstLower($baseEntityName)}" useCache="true">
+        SELECT
+        <include refid="wholeColumnsToProperties" />
+        FROM
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end
+
+        WHERE
+        #foreach($propertyToPKey in $baseEntityTable.getPropertyToPKey().entrySet())  $propertyToPKey.value#end
+
+        IN
+        <foreach item="item" index="index" collection="pKeys" open="(" separator="," close=")">
+            ${well}{item}
+        </foreach>
+    </select>
+
+    <!-- select object by condition for page -->
+    <select id="selectPagination" resultType="${bean.firstLower($baseEntityName)}" useCache="true">
+        SELECT
+          <include refid="wholeColumnsToProperties" />
+        FROM
+        #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())  $entityToTable.value#end
+
+        WHERE
+          1 = 1
+          <include refid="selectCondition" />
+        LIMIT ${well}{offset},${well}{size}
+    </select>
+
+    <!-- select object with condition for page row total -->
+    <select id="selectTotal" parameterType="${bean.firstLower($baseEntityName)}" resultType="java.lang.Long" useCache="true">
+        SELECT
+          count(0)
+        FROM
+          #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())$entityToTable.value#end
+
+        WHERE
+          1 = 1
+          <include refid="selectCondition" />
+    </select>
+
+    <!-- select object with condition -->
+    <select id="selectObjects" parameterType="${bean.firstLower($baseEntityName)}" resultType="${bean.firstLower($baseEntityName)}"  useCache="true">
+        SELECT
+          <include refid="wholeColumnsToProperties" />
+        FROM
+          #foreach($entityToTable in $baseEntityTable.getEntityToTable().entrySet())$entityToTable.value#end
+
+        WHERE
+          1 = 1
+          <include refid="selectCondition" />
+    </select>
+
+
+    <!--
+        =========================================
+        support for sql construct dependence
+        =========================================
+    -->
+
+
+    <!--  table columns without primary key -->
+    <sql id="columnsWithOutPK">
+        #foreach($propertyToColumn in $baseEntityTable.getPropertyToColumn().entrySet()) $propertyToColumn.value#if( $velocityCount >= 1 && $velocityCount < $baseEntityTable.getPropertyToColumn().size()),#end#end
+
+    </sql>
+
+    <!--  whole table column -->
+    <sql id="wholeColumns">
+        #foreach($propertyToPKey in $baseEntityTable.getPropertyPKeyType().entrySet())$propertyToPKey.key#end, <include refid="columnsWithOutPK" />
+    </sql>
+
+    <!-- whole table column with object properties mapping -->
+    <sql id="wholeColumnsToProperties">
+        #foreach($propertyToKey in $baseEntityTable.getPropertyToPKey().entrySet()) $propertyToKey.key AS $propertyToKey.value#end,
+#foreach($propertyToColumn in $baseEntityTable.getPropertyToColumn().entrySet())
+         $propertyToColumn.value AS $propertyToColumn.key #if( $velocityCount >= 1 && $velocityCount < $baseEntityTable.getPropertyToColumn().size()),#end
+
+#end
+    </sql>
+
+    <!-- select condition -->
+    <sql id="selectCondition">
+#foreach($propertyToColumn in $baseEntityTable.getPropertyToColumn().entrySet())
+        <if test="object.$propertyToColumn.key!= null and ''!=object.$propertyToColumn.key">
+            <![CDATA[ AND $propertyToColumn.value = ${well}{object.$propertyToColumn.key} ]]>
+        </if>
+#end
+    </sql>
+
+    <!-- update condition -->
+    <sql id="updateCondition">
+        <set>
+#foreach($propertyToColumn in $baseEntityTable.getPropertyToColumn().entrySet())
+#if( $velocityCount >= 1 && $velocityCount < $baseEntityTable.getPropertyToColumn().size() )
+            <if test="object.$propertyToColumn.key!= null and ''!=object.$propertyToColumn.key">
+                <![CDATA[ $propertyToColumn.value = ${well}{object.$propertyToColumn.key}, ]]>
+#else
+            <if test="object.$propertyToColumn.key!= null and ''!=object.$propertyToColumn.key">
+                <![CDATA[ $propertyToColumn.value = ${well}{object.$propertyToColumn.key} ]]>
+#end
+            </if>
+#end
+        </set>
+    </sql>
+
+</mapper>

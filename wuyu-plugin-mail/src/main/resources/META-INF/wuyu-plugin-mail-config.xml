@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="mail_wys" class="com.wuyu.plugin.mail.bean.MailSmtpBean">
+        <property name="name">
+            <value>wuyushuo</value>
+        </property>
+        <property name="smtpHost">
+            <value>smtp.wuyushuo.com</value>
+        </property>
+        <property name="smtpPort">
+            <value>25</value>
+        </property>
+        <property name="description">
+            <value>mail config for wuyushuo</value>
+        </property>
+    </bean>
+
+    <bean id="mail_163" class="com.wuyu.plugin.mail.bean.MailSmtpBean">
+        <property name="name">
+            <value>163</value>
+        </property>
+        <property name="smtpHost">
+            <value>smtp.163.com</value>
+        </property>
+        <property name="smtpPort">
+            <value>25</value>
+        </property>
+        <property name="description">
+            <value>mail config for 163</value>
+        </property>
+    </bean>
+
+    <bean id="mail_sina" class="com.wuyu.plugin.mail.bean.MailSmtpBean">
+        <property name="name">
+            <value>sina</value>
+        </property>
+        <property name="smtpHost">
+            <value>smtp.sina.com</value>
+        </property>
+        <property name="smtpPort">
+            <value>25</value>
+        </property>
+        <property name="description">
+            <value>mail config for sina</value>
+        </property>
+    </bean>
+
+    <bean id="mail_sohu" class="com.wuyu.plugin.mail.bean.MailSmtpBean">
+        <property name="name">
+            <value>sohu</value>
+        </property>
+        <property name="smtpHost">
+            <value>smtp.sohu.com</value>
+        </property>
+        <property name="smtpPort">
+            <value>25</value>
+        </property>
+        <property name="description">
+            <value>mail config for souhu</value>
+        </property>
+    </bean>
+
+    <bean id="mail_gmail" class="com.wuyu.plugin.mail.bean.MailSmtpBean">
+        <property name="name">
+            <value>gmail</value>
+        </property>
+        <property name="smtpHost">
+            <value>smtp.gmail.com</value>
+        </property>
+        <property name="smtpPort">
+            <value>465</value>
+        </property>
+        <property name="description">
+            <value>mail config for google</value>
+        </property>
+    </bean>
+
+    <bean id="mail_qq" class="com.wuyu.plugin.mail.bean.MailSmtpBean">
+        <property name="name">
+            <value>qq</value>
+        </property>
+        <property name="smtpHost">
+            <value>smtp.qq.com</value>
+        </property>
+        <property name="smtpPort">
+            <value>465</value>
+        </property>
+        <property name="description">
+            <value>mail config for qq</value>
+        </property>
+    </bean>
+
+</beans>
