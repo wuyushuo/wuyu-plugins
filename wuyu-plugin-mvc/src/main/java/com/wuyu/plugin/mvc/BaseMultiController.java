@@ -37,7 +37,7 @@ import java.util.Date;
  */
 public class BaseMultiController extends MultiActionController {
 
-    public static final int DEFAULT_SIZE = 20;
+    public static final int DEFAULT_SIZE = 15;
 
     public static final String[] parsePatterns = new String[]{"yyyy-MM","yyyyMM","yyyy/MM",
             "yyyyMMdd","yyyy-MM-dd","yyyy/MM/dd",

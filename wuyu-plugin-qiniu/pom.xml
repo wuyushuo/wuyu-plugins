@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>wuyu-plugins</artifactId>
+        <groupId>com.wuyushuo</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>wuyu-plugin-qiniu</artifactId>
+    <packaging>jar</packaging>
+    <name>wuyu-plugin-qiniu</name>
+    <description>wuyushuo qiniu plugin</description>
+    <url>https://github.com/wuyushuo/wuyu-plugins</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>elon su</name>
+            <email>git_wuyu@163.com</email>
+            <organizationUrl>www.wuyushuo.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <qiniu.java.sdk.version>7.0.7</qiniu.java.sdk.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wuyushuo</groupId>
+            <artifactId>wuyu-plugin-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>${qiniu.java.sdk.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

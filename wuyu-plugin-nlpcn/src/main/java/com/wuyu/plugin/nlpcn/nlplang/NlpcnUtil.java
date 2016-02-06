@@ -63,8 +63,24 @@ public class NlpcnUtil {
      * @return [chang, jiang, cheng, zhang]
      */
 
-    public static List<String> pinyin(String str) {
+    public static List<String> pinyinList(String str) {
         return Pinyin.pinyin(str);
+    }
+
+    /**
+     * convert each chinese to mapped pingyin
+     * @param str
+     * @return changjiangchengzhang
+     */
+    public static String pinyinString(String str){
+        List<String> list = pinyinList(str);
+        StringBuffer buffer = new StringBuffer(list.size());
+        if(null != list && list.size() > 0){
+            for(String c : list){
+                buffer.append(c);
+            }
+        }
+        return buffer.toString();
     }
 
     /**

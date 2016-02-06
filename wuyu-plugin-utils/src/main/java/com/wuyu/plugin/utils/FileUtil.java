@@ -55,7 +55,7 @@ public class FileUtil {
         FileUtils.forceMkdir(directory);
     }
 
-    public static String fileNameconcat(String basePath, String fullFilenameToAdd) {
+    public static String fileNameConcat(String basePath, String fullFilenameToAdd) {
         return FilenameUtils.concat(basePath, fullFilenameToAdd);
     }
 
@@ -66,6 +66,34 @@ public class FileUtil {
      */
     public static String getFileExtension(String fileName){
         return FilenameUtils.getExtension(fileName);
+    }
+
+    public static void createFile(String path, boolean isFile) {
+        createFile(new File(path), isFile);
+    }
+
+    /**
+     * 创建一个新文件
+     *
+     * @param file   文件
+     * @param isFile true为文件, false为目录
+     */
+    public static void createFile(File file, boolean isFile) {
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                createFile(file.getParentFile(), false);
+            } else {
+                if (isFile) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        ;
+                    }
+                } else {
+                    file.mkdir();
+                }
+            }
+        }
     }
 
     /**

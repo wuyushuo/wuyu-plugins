@@ -34,6 +34,9 @@
         <module>wuyu-plugin-ik</module>
         <module>wuyu-plugin-gcode</module>
         <module>wuyu-plugin-itimez</module>
+        <module>wuyu-plugin-persist</module>
+        <module>wuyu-plugin-security</module>
+        <module>wuyu-plugin-qiniu</module>
     </modules>
 
     <developers>
@@ -53,7 +56,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.version>1.0.0-SNAPSHOT</project.version>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.7</jdk.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.1.7.RELEASE</spring.version>
         <javax.mail.version>1.4.7</javax.mail.version>
@@ -75,6 +78,7 @@
         <joda.time.version>2.8.1</joda.time.version>
         <velocity-tools.version>2.0</velocity-tools.version>
         <velocity.version>1.7</velocity.version>
+        <jackson.version>2.6.1</jackson.version>
     </properties>
 
     <dependencies>
@@ -168,6 +172,33 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>snapshot</id>
+            <properties>
+                <provider.conf.env>snapshot</provider.conf.env>
+            </properties>
+            <activation>
+                <property>
+                    <name>snapshot</name>
+                </property>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <provider.conf.env>release</provider.conf.env>
+            </properties>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+        </profile>
+    </profiles>
+
     <distributionManagement>
         <snapshotRepository>
             <id>oss</id>

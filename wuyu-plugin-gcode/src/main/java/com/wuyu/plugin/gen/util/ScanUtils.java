@@ -131,7 +131,7 @@ public class ScanUtils {
         if(StringUtils.isBlank(srcPackage)){
             srcRoot = "";
         }
-        String path = FileUtil.fileNameconcat(srcRoot, srcPackage.replaceAll("\\.", "/"));
+        String path = FileUtil.fileNameConcat(srcRoot, srcPackage.replaceAll("\\.", "/"));
         LOG.debug("[init] path : " + path);
         if(StringUtils.isBlank(path)){
             return null;
