@@ -1,0 +1,17 @@
+public static void main(String[] args) {
+
+        long start = System.currentTimeMillis();
+
+        WordFilter wFilter = new WordFilter();
+
+        String content = "含敏感词文本组件";
+
+        // 使用默认的配置规则,邮件规则<1配置文件,2默认的>
+        System.out.println(wFilter.process(content));
+
+        // 代码中动态定义,直接覆盖上面的规则
+        System.out.println(wFilter.process(content, "**"));
+
+        System.out.println("use time:" + (System.currentTimeMillis() - start));
+
+}

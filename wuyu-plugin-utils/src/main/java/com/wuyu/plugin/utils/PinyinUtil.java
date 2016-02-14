@@ -113,6 +113,15 @@ public class PinyinUtil {
         return resultPinyinStrBuf.toString();
     }
 
+    public static String toPinyinWithNoSpecialCharacter(String text){
+        if(StringUtil.isNotBlank(text)){
+            text = toHanyuPinyinLowerCasedString(text);
+            if(StringUtil.isNotBlank(text)){
+                return getClearSpecialCharacters(text);
+            }
+        }
+        return StringUtil.EMPTY;
+    }
 
     public static String getClearSpecialCharacters(String text) {
         return isBlankOrNull(text)?"":text.replaceAll("[`~!@#$%^&*()+=|{}\':;,\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？\\s·\"-]", "");

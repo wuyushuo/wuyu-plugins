@@ -37,6 +37,7 @@
         <module>wuyu-plugin-persist</module>
         <module>wuyu-plugin-security</module>
         <module>wuyu-plugin-qiniu</module>
+        <module>wuyu-plugin-wfilter</module>
     </modules>
 
     <developers>
