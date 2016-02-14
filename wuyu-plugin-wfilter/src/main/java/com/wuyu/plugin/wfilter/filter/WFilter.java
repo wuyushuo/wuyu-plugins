@@ -28,7 +28,6 @@ package com.wuyu.plugin.wfilter.filter;
  */
 public interface WFilter {
 
-
     /**
      * @param content
      * @param replaceTo

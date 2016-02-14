@@ -3,7 +3,7 @@
 <properties>  
 	<comment>WordFilter配置</comment>
 	<!--对于敏感词汇,替换后的字符-->
-	<entry key="replace_to">****</entry>
+	<entry key="replace_to">*</entry>
 	<!--配置敏感词路径切分富豪,可不配置,默认使用;分隔,如果这里自己配置了,则在下面的word_dict中多个文件分隔用自己配置的符号-->
 	<entry key="word_dict_split">;</entry>
 	<!--敏感词汇位置-->

@@ -21,9 +21,7 @@ package com.wuyu.plugin.wfilter.filter;
 import com.wuyu.plugin.wfilter.algorithm.TreeNode;
 import com.wuyu.plugin.wfilter.load.WConfs;
 import com.wuyu.plugin.wfilter.load.WFLoad;
-
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * class function depict
@@ -38,30 +36,38 @@ public class WordFilter implements WFilter {
 
     private TreeNode treeNode;
 
-    private List<WordToken> wordTokens = new CopyOnWriteArrayList<WordToken>();
+    private List<WordToken> wordTokens = new ArrayList<WordToken>();
 
 
     /**
      * load from component
      */
-    public WordFilter(){
-        WFLoad wfLoad = WFLoad.getWFLoad();
+    private WordFilter(){
+        WFLoad wfLoad = new WFLoad();
         this.replaceTo = wfLoad.getFilterReplaceTo();
         treeNode = TreeNode.initNode(wfLoad.getFilterWords());
     }
 
-    /**
-     * for self daynamic ext
+    private static class WordFilterHold{
+       public static WordFilter hold = new WordFilter();
+    }
+
+    public static WordFilter getInstance(){
+        return WordFilterHold.hold;
+    }
+
+   /* *//**
+     * for self dynamic ext
      * @param words
-     */
+     *//*
     public WordFilter(Set<String> words) {
         treeNode = TreeNode.initNode(words);
     }
 
-    /**
-     * for self daynamic ext
+    *//**
+     * for self dynamic ext
      * @param words
-     */
+     *//*
     public WordFilter(String[] words){
         Set<String> sets = new HashSet<String>();
         for(int i=0; i<words.length; i++){
@@ -69,7 +75,7 @@ public class WordFilter implements WFilter {
         }
         treeNode = TreeNode.initNode(sets);
     }
-
+*/
     /**
      * search word from tree node
      * @param word
@@ -115,7 +121,7 @@ public class WordFilter implements WFilter {
      * @return
      */
     private TreeNode findNode(TreeNode node, char chat) {
-        if (node.tree.containsKey(chat)) {
+        if(null != node  && node.tree.containsKey(chat)) {
             Map<Character, TreeNode> map = node.tree.get(chat);
             return map.get(chat);
         }
@@ -206,10 +212,16 @@ public class WordFilter implements WFilter {
         // 这里重写所有配置规则
         System.out.println(wFilter.process(content, "*"));
 
-        // 使用默认的配置规则
-        System.out.println(wFilter.process(content));
+      /*  // 使用默认的配置规则
+        System.out.println(wFilter.process(content));*/
 
         long end = System.currentTimeMillis();
-        System.out.println("耗时；" + (end-start) + "ms");
+        System.out.println("1耗时；" + (end - start) + "ms");
+
+       /* long star2 = System.currentTimeMillis();
+
+        System.out.println(wFilter.process(content, "XXX"));
+        long ends2 = System.currentTimeMillis();
+        System.out.println("2耗时；" + (ends2 - star2) + "ms");*/
     }
 }

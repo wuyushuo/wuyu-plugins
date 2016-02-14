@@ -34,31 +34,26 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class WFLoad {
 
-    private Set<String> keywords = new CopyOnWriteArraySet<String>();
+    private static Set<String> keywords = new HashSet<String>(1024*1024);
 
-    private Properties props;
+    private static Properties props;
 
-    private WFLoad(){
+    static {
+        // load in static code
         loadInit();
         Set<String> main = loadMainDict();
         Set<String> exts = loadExtDict();
-        System.out.println("default word size:" + main.size());
         keywords.addAll(main);
-        System.out.println("extend word size:" + exts.size());
         keywords.addAll(exts);
     }
 
-    static class WFLoadHold{
-       public static WFLoad load = new WFLoad();
+    public WFLoad(){
     }
 
-    public static WFLoad getWFLoad(){
-        return WFLoadHold.load;
-    }
 
-    private void loadInit(){
+    private static void loadInit(){
         props = new Properties();
-        InputStream input = this.getClass().getClassLoader().getResourceAsStream(WConfs.CONF_FILE_NAME);
+        InputStream input = WFLoad.class.getClassLoader().getResourceAsStream(WConfs.CONF_FILE_NAME);
         if(input != null){
             try {
                 props.loadFromXML(input);
@@ -73,7 +68,7 @@ public class WFLoad {
     /**
      * 加载主词典及扩展词典
      */
-    private Set<String> loadMainDict(){
+    private static Set<String> loadMainDict(){
         Set<String>  mainWords  = new CopyOnWriteArraySet<String>();
         //读取主词典文件
         InputStream is = WFLoad.class.getClassLoader().getResourceAsStream(WConfs.MAIN_ILLEGAL_DICT);
@@ -110,7 +105,7 @@ public class WFLoad {
     /**
      * 加载用户配置的扩展词典到主词库表
      */
-    private Set<String> loadExtDict(){
+    private static Set<String> loadExtDict(){
         Set<String> set = new CopyOnWriteArraySet<String>();
         List<String> extDictFiles  = paserConfDictPath();
         if(extDictFiles != null){
@@ -118,7 +113,7 @@ public class WFLoad {
             for(String extDictName : extDictFiles){
                 //读取扩展词典文件
                 System.out.println("load copnfig dic path：" + extDictName);
-                is = this.getClass().getClassLoader().getResourceAsStream(extDictName);
+                is = WFLoad.class.getClassLoader().getResourceAsStream(extDictName);
                 //如果找不到扩展的字典，则忽略
                 if(is == null){
                     continue;
@@ -152,7 +147,7 @@ public class WFLoad {
         return set;
     }
 
-    private List<String> paserConfDictPath(){
+    private static List<String> paserConfDictPath(){
         List<String> extDictFiles = new ArrayList<String>(64);
         String extDictCfg = props.getProperty(WConfs.CONF_KEY_iLLEGAL_DICT);
         if(extDictCfg != null){
@@ -169,11 +164,11 @@ public class WFLoad {
         return extDictFiles;
     }
 
-    public Set<String> getFilterWords(){
-        return this.keywords;
+    public static Set<String> getFilterWords(){
+        return keywords;
     }
 
-    public String getFilterReplaceTo(){
+    public static String getFilterReplaceTo(){
         String replaceTo = props.getProperty(WConfs.CONF_KEY_REPLACE_TO);
         if (null!=replaceTo && !"".equals(replaceTo.trim())) {
             return replaceTo;
