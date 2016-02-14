@@ -22,7 +22,6 @@ import com.wuyu.plugin.wfilter.algorithm.TreeNode;
 import com.wuyu.plugin.wfilter.load.WConfs;
 import com.wuyu.plugin.wfilter.load.WFLoad;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -42,7 +41,7 @@ public class WordFilter implements WFilter {
 
 
     /**
-     * load from componment
+     * load from component
      */
     public WordFilter(){
         WFLoad wfLoad = WFLoad.getWFLoad();
@@ -202,7 +201,7 @@ public class WordFilter implements WFilter {
         WordFilter wFilter = new WordFilter();
 
         // 这里重写所有配置规则
-        System.out.println(wFilter.process(content, "AAAAX"));
+        System.out.println(wFilter.process(content, "*"));
 
         // 使用默认的配置规则
         System.out.println(wFilter.process(content));

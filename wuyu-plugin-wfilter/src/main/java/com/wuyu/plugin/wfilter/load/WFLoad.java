@@ -33,7 +33,7 @@ import java.util.*;
  */
 public class WFLoad {
 
-    private Set<String> keywords = new HashSet<String>(1024*2);
+    private Set<String> keywords = new HashSet<String>(1024*10);
 
     private Properties props;
 
@@ -41,9 +41,9 @@ public class WFLoad {
         loadInit();
         Set<String> main = loadMainDict();
         Set<String> exts = loadExtDict();
-        System.out.println("main words:" + main);
+        System.out.println("default word size:" + main.size());
         keywords.addAll(main);
-        System.out.println("dict words:" + exts);
+        System.out.println("extend word size:" + exts.size());
         keywords.addAll(exts);
     }
 
