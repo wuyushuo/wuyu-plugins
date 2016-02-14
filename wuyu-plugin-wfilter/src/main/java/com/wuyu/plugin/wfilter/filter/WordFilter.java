@@ -23,6 +23,7 @@ import com.wuyu.plugin.wfilter.load.WConfs;
 import com.wuyu.plugin.wfilter.load.WFLoad;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * class function depict
@@ -37,7 +38,7 @@ public class WordFilter implements WFilter {
 
     private TreeNode treeNode;
 
-    private List<WordToken> wordTokens = new ArrayList<WordToken>();
+    private List<WordToken> wordTokens = new CopyOnWriteArrayList<WordToken>();
 
 
     /**
@@ -198,6 +199,8 @@ public class WordFilter implements WFilter {
                 + "概括一下放荡型黄色小说文本内外观念就是，认为做爱不用脑子，描写做爱时也不用脑子，还指望着看黄色小说的人也不用脑子。\n"
                 + "之于激情型黄色小说，用《维奥莱特罗曼史》中评价法国雕塑家普拉迪埃的作品的话来说就是：这富有魔力的雕塑家，能使贞淑女子的雕像也变得撩人。";
 
+        long start = System.currentTimeMillis();
+
         WordFilter wFilter = new WordFilter();
 
         // 这里重写所有配置规则
@@ -205,5 +208,8 @@ public class WordFilter implements WFilter {
 
         // 使用默认的配置规则
         System.out.println(wFilter.process(content));
+
+        long end = System.currentTimeMillis();
+        System.out.println("耗时；" + (end-start) + "ms");
     }
 }

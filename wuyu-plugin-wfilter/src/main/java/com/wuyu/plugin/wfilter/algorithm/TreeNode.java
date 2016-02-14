@@ -22,9 +22,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * from http://www.lxway.com/48582412.htm
+
  * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
  * created on 2016/02/06 by <strong>elon su</strong>
  * email addr (<a href='mailto:git_wuyu@163.com'>git_wuyu@163.com</a>)
@@ -42,7 +44,7 @@ public class TreeNode {
 
     public boolean isEnd = false;
 
-    public Map<Character, Map<Character, TreeNode>> tree = new HashMap<Character, Map<Character, TreeNode>>(1024*2);
+    public Map<Character, Map<Character, TreeNode>> tree = new ConcurrentHashMap<Character, Map<Character, TreeNode>>(1024*2);
 
     /**
      * build keyword to node tree

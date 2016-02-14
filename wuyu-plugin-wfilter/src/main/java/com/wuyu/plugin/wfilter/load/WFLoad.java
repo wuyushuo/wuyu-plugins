@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * class function depict
@@ -33,7 +34,7 @@ import java.util.*;
  */
 public class WFLoad {
 
-    private Set<String> keywords = new HashSet<String>(1024*10);
+    private Set<String> keywords = new CopyOnWriteArraySet<String>();
 
     private Properties props;
 
@@ -73,7 +74,7 @@ public class WFLoad {
      * 加载主词典及扩展词典
      */
     private Set<String> loadMainDict(){
-        Set<String>  mainWords  = new HashSet<String>();
+        Set<String>  mainWords  = new CopyOnWriteArraySet<String>();
         //读取主词典文件
         InputStream is = WFLoad.class.getClassLoader().getResourceAsStream(WConfs.MAIN_ILLEGAL_DICT);
         if(is == null){
@@ -110,7 +111,7 @@ public class WFLoad {
      * 加载用户配置的扩展词典到主词库表
      */
     private Set<String> loadExtDict(){
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new CopyOnWriteArraySet<String>();
         List<String> extDictFiles  = paserConfDictPath();
         if(extDictFiles != null){
             InputStream is = null;
