@@ -19,17 +19,20 @@
 package com.wuyu.plugin.itimez.impl;
 
 import com.wuyu.plugin.itimez.ITimeZoneRepository;
+import com.wuyu.plugin.itimez.bean.ITimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.Types;
 import java.util.Date;
+import java.util.List;
 
 /**
  * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
  * created on 2016/02/04 by <strong>elon su</strong>
- * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
+ * email addr (<a href='mailto:git_wuyu@163.com'>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
 public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
@@ -55,6 +58,38 @@ public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
     }
 
     /**
+     * select list total fo index time
+     * @return
+     */
+    @Override
+    public synchronized long selectIndexZoneTimeTotal() {
+        try {
+            String psql = "select count(0) from tb_index_zone";
+            return jdbcTemplate.queryForObject(psql, Long.class);
+        }catch (Exception e){
+            LOG.error(e.getLocalizedMessage(), e);
+        }
+        return 0;
+    }
+
+    /**
+     * select list of index time zone list
+     * @param offset
+     * @param size
+     * @return
+     */
+    @Override
+    public synchronized List<ITimeZone> selectIndexZoneTimeList(int offset, int size) {
+        try {
+            String psql = "select id,channel from tb_index_zone order by id desc limit ?, ?";
+            return jdbcTemplate.query(psql, new Object[]{offset, size}, new BeanPropertyRowMapper(ITimeZone.class));
+        }catch (Exception e){
+            LOG.error(e.getLocalizedMessage(), e);
+        }
+        return null;
+    }
+
+    /**
      * update each channel lasted index time by channel
      * @param channel channel business
      * @param time
@@ -67,10 +102,14 @@ public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
             int effect =  jdbcTemplate.update(psql, new Object[]{time, date, channel}, new int[]{Types.BIGINT, Types.TIMESTAMP ,Types.VARCHAR});
             return effect > 0;
         }catch (Exception e){
-            System.err.println(e.getLocalizedMessage());
             LOG.error(e.getLocalizedMessage(), e);
         }
         return false;
+    }
+
+    @Override
+    public synchronized boolean zebackIndexZoneTime(String channel) {
+        return updateIndexZoneTime(channel, 0);
     }
 
     public JdbcTemplate getJdbcTemplate() {

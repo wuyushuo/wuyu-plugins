@@ -18,10 +18,14 @@
 */
 package com.wuyu.plugin.itimez;
 
+import com.wuyu.plugin.itimez.bean.ITimeZone;
+
+import java.util.List;
+
 /**
  * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
  * created on 2016/02/04 by <strong>elon su</strong>
- * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
+ * email addr (<a href='mailto:git_wuyu@163.com'>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
 public interface ITimeZoneRepository {
@@ -34,10 +38,31 @@ public interface ITimeZoneRepository {
     public long selectIndexZoneTime(String channel);
 
     /**
+     * select list total fo index time
+     * @return
+     */
+    public long selectIndexZoneTimeTotal();
+
+    /**
+     * select list of index time zone list
+     * @param offset
+     * @param size
+     * @return
+     */
+    public List<ITimeZone> selectIndexZoneTimeList(int offset, int size);
+
+    /**
      * update each channel lasted index time by channel
      * @param channel channel business
      * @param time
      * @return return update result success return true， else return false
      */
     public boolean updateIndexZoneTime(String channel, long time);
+
+    /**
+     * reset each channel lasted index itme to zero, for full index
+     * @param channel
+     * @return
+     */
+    public boolean zebackIndexZoneTime(String channel);
 }
