@@ -1,17 +1,16 @@
-public static void main(String[] args) {
+文本词汇过滤与查找工具
+[雏形]
 
-        long start = System.currentTimeMillis();
+[algorithm]
+https://github.com/hymer/sensitivewords.git
 
-        WordFilter wFilter = new WordFilter();
+[api]
+WordFilter wordFilter = new WordFilter();
+Set<String> words = wordFilter.fetch(content);
+System.out.println("文本中出现的敏感词：\n" + words);
 
-        String content = "含敏感词文本组件";
+String hlText = wordFilter.highlight(content);
+System.out.println("高亮文本中的敏感词:\n" + hlText);
 
-        // 使用默认的配置规则,邮件规则<1配置文件,2默认的>
-        System.out.println(wFilter.process(content));
-
-        // 代码中动态定义,直接覆盖上面的规则
-        System.out.println(wFilter.process(content, "**"));
-
-        System.out.println("use time:" + (System.currentTimeMillis() - start));
-
-}
+String rplText = wordFilter.replace(content);
+System.out.println("替换文本中的敏感词:\n" + rplText);
