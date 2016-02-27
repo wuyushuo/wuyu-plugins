@@ -23,18 +23,31 @@ import com.wuyu.plugin.wcrite.http.HttpType;
 /**
  * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
  * created on 2016/02/05 by <strong>elon su</strong>
- * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
+ * email addr (<a href='mailto:git_wuyu@163.com'>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
 public enum Istatus implements HttpType{
 
     // about code httpcode + (00000)[appId(2) + business code(3)]
 
+    //
     OK(20001000, HttpType.HTTP_OK, "OK", "执行成功"),
 
-    BAD_REQUEST(40001000, HttpType.HTTP_BAD_REQUEST, "Bad Request", "错误请求"),
+    //
+    REQUEST_BAD(40001300, HttpType.HTTP_BAD_REQUEST, "Bad Request", "错误请求"),
+    REQUEST_FREQUEST(40001301, HttpType.HTTP_BAD_REQUEST, "Request Frequent", "请求频繁"),
+    REQUEST_NOT_AUTHORIZE(40001302, HttpType.HTTP_BAD_REQUEST, "Operate Need Login", "请登录后操作"),
+    REQUEST_DATA_NULL_FOUND(400100310, HTTP_BAD_REQUEST, "Request Param Found Null", "请求参数为空"),
+    REQUEST_DATA_ERROR(400100312, HTTP_BAD_REQUEST, "Request Param Found Null", "请求参数错误"),
+    REQUEST_DATA_ILLEGAL_MATCH(400100313, HttpType.HTTP_BAD_REQUEST, "IllegalMatch", "请求数据校验失败"),
 
-    INTERNAL_SERVER_ERROR(50001000, HttpType.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", "服务器内部错误");
+    //
+    RRESPONSE_DATA_NOT_FOUND(400100400, HTTP_BAD_REQUEST, "Data Not Found", "请求数据未找到"),
+    RRESPONSE_DATA_HAS_EXIST(400100401, HTTP_BAD_REQUEST, "Data Has Existed", "请求数据已存在"),
+
+    //
+    SERVER_INTERNAL_ERROR(50001000, HttpType.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error", "服务器内部错误"),
+    SERVER_UNAVAILABLE(50010503, HttpType.HTTP_INTERNAL_SERVER_ERROR, "Service Unavailable", "服务不可用");
 
 
     // business status code
