@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
-public interface KernelCachePersist {
+public interface KernelCacheRepository {
 
     public void setCacheable(String cacheName, Object cacheValue);
 

@@ -18,9 +18,8 @@
 */
 package com.wuyu.plugin.persist.cache.proxy;
 
-import com.wuyu.plugin.persist.cache.KernelCachePersist;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.wuyu.plugin.persist.cache.KernelCacheRepository;
+import com.wuyu.plugin.persist.except.CacheNotFoundCallback;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,37 +29,39 @@ import java.util.concurrent.TimeUnit;
  * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
-public abstract class AbstrKernelCachePersist implements KernelCachePersist {
+public class KernelCacheRepositoryProxy {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    private KernelCacheRepository kernelCachePersist;
 
-    public AbstrKernelCachePersist() {
+    public KernelCacheRepositoryProxy(KernelCacheRepository kernelCachePersist) {
+        this.kernelCachePersist = kernelCachePersist;
     }
 
-    public AbstrKernelCachePersist(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    public void setCacheable(String cacheName, Object cacheValue){
+        kernelCachePersist.setCacheable(cacheName, cacheValue);
     }
 
-    @Override
-    public void setCacheable(String cacheName, Object cacheValue) {
-        redisTemplate.opsForValue().set(cacheName, cacheValue);
+    public void setCacheable(String cacheName, Object cacheValue, long timeout, TimeUnit unit){
+        kernelCachePersist.setCacheable(cacheName, cacheValue, timeout, unit);
     }
 
-    @Override
-    public void setCacheable(String cacheName, Object cacheValue, long timeout, TimeUnit unit) {
-        redisTemplate.opsForValue().set(cacheName, cacheValue);
-        redisTemplate.expire(cacheName, timeout, unit);
+    public void setCacheable(String cacheName, Object cacheValue, long timeoutSenconds){
+        kernelCachePersist.setCacheable(cacheName, cacheValue, timeoutSenconds);
     }
 
-    @Override
-    public void setCacheable(String cacheName, Object cacheValue, long timeoutSenconds) {
-        setCacheable(cacheName, cacheValue, timeoutSenconds, TimeUnit.SECONDS);
+    public <T> T getCacheable(String cacheName, CacheNotFoundCallback<T> callback){
+        return kernelCachePersist.getCacheable(cacheName, callback);
     }
 
-    @Override
-    public void removeCacheable(String cacheName) {
-        redisTemplate.expire(cacheName, 0, TimeUnit.SECONDS);
+    public void removeCacheable(String cacheName){
+        kernelCachePersist.removeCacheable(cacheName);
     }
 
+    public KernelCacheRepository getKernelCachePersist() {
+        return kernelCachePersist;
+    }
+
+    public void setKernelCachePersist(KernelCacheRepository kernelCachePersist) {
+        this.kernelCachePersist = kernelCachePersist;
+    }
 }

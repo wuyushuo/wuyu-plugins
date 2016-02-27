@@ -24,12 +24,9 @@ package com.wuyu.plugin.persist;
  * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
  * @version 1.0.0
  */
-public class PersistDataRepository {
-
+public class PersistDataRepository{
 
     private String charset = "UTF-8";
-
-
 
     /*
     private RedisCacheManager redisCacheManager;*/

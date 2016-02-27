@@ -26,10 +26,7 @@ package com.wuyu.plugin.persist.except;
  */
 public interface CacheNotFoundCallback<T> {
 
-    /**
-     * 用户的缓存类必须实现本方法，从数据库中取得数据并返回
-     * @throws Exception 如果程序出错一定要抛出异常而不要返回null,否则错误时返回的null会被缓存
-     */
+
     T execute() throws Exception;
 
 }
