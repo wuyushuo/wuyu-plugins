@@ -29,6 +29,11 @@ public class PersistDataRepository {
 
     private String charset = "UTF-8";
 
+
+
+    /*
+    private RedisCacheManager redisCacheManager;*/
+
     public static final int DEFAULT_SIZE = 50;
 
     // following is global redis operate
