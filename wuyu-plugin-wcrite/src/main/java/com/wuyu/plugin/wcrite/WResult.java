@@ -47,7 +47,7 @@ public class WResult<T> implements Serializable {
     private T data;
 
     public WResult() {
-        this(Istatus.BAD_REQUEST);
+        this(Istatus.REQUEST_BAD);
     }
 
     public WResult(Istatus istatus){
@@ -66,7 +66,7 @@ public class WResult<T> implements Serializable {
         Istatus istatus = null;
         HttpType httpType = Istatus.valueOf(code);
         if(null == httpType){
-            istatus = Istatus.BAD_REQUEST;
+            istatus = Istatus.REQUEST_BAD;
         }
         if(httpType instanceof Istatus){
             istatus = (Istatus) httpType;
