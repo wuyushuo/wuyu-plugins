@@ -20,6 +20,7 @@ package com.wuyu.plugin.itimez;
 
 import com.wuyu.plugin.itimez.bean.ITimeZone;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,13 @@ import java.util.List;
  * @version 1.0.0
  */
 public interface ITimeZoneRepository {
+
+    /**
+     * detail iTimezone by id
+     * @param id
+     * @return
+     */
+    public ITimeZone detailIndexZoneTime(long id);
 
     /**
      * select update zone time by channel business
@@ -52,12 +60,29 @@ public interface ITimeZoneRepository {
     public List<ITimeZone> selectIndexZoneTimeList(int offset, int size);
 
     /**
+     * insert new update index zone time
+     * @param iTimeZone
+     * @return
+     */
+    public boolean insertIndexZoneTime(ITimeZone iTimeZone);
+
+    /**
      * update each channel lasted index time by channel
      * @param channel channel business
      * @param time
      * @return return update result success return true， else return false
      */
     public boolean updateIndexZoneTime(String channel, long time);
+
+
+    /**
+     * update each channel lasted index time by channel, for db info update
+     * @param channel  channel business
+     * @param latestIndexDate
+     * @param remark description of remark
+     * @return return update result success return true， else return false
+     */
+    public boolean updateIndexZoneTime(long id, String channel, Date latestIndexDate, String remark);
 
     /**
      * reset each channel lasted index itme to zero, for full index

@@ -41,6 +41,19 @@ public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
 
     private JdbcTemplate jdbcTemplate;
 
+    @Override
+    public ITimeZone detailIndexZoneTime(long id) {
+        try {
+            if(id > 0){
+                String psql = "select id, channel, latestIndexTime, latestIndexDate, remark from tb_index_zone Where id = ?";
+                return (ITimeZone) jdbcTemplate.queryForObject(psql, new Object[]{id}, new BeanPropertyRowMapper(ITimeZone.class));
+            }
+        }catch (Exception e){
+            LOG.error(e.getLocalizedMessage(), e);
+        }
+        return null;
+    }
+
     /**
      * select update zone time by channel business
      * @param channel channel business
@@ -48,10 +61,11 @@ public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
      */
     public synchronized long selectIndexZoneTime(String channel){
         try {
-            String psql = "select latestIndexTime from tb_index_zone where channel=?";
-            return jdbcTemplate.queryForObject(psql, new Object[]{channel}, Long.class);
+            if(null != channel && channel.trim().length() > 0 ){
+                String psql = "select latestIndexTime from tb_index_zone where channel=?";
+                return jdbcTemplate.queryForObject(psql, new Object[]{channel}, Long.class);
+            }
         }catch (Exception e){
-            System.err.println(e.getLocalizedMessage());
             LOG.error(e.getLocalizedMessage(), e);
         }
         return 0L;
@@ -81,12 +95,29 @@ public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
     @Override
     public synchronized List<ITimeZone> selectIndexZoneTimeList(int offset, int size) {
         try {
-            String psql = "select id,channel from tb_index_zone order by id desc limit ?, ?";
+            offset = offset <=0 ? 0 : offset;
+            String psql = "select id, channel, latestIndexTime, latestIndexDate, remark from tb_index_zone order by id desc limit ?, ?";
             return jdbcTemplate.query(psql, new Object[]{offset, size}, new BeanPropertyRowMapper(ITimeZone.class));
         }catch (Exception e){
             LOG.error(e.getLocalizedMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    public boolean insertIndexZoneTime(ITimeZone iTimeZone) {
+        try {
+            if(null != iTimeZone){
+                String psql = "insert into tb_index_zone(channel, latestIndexTime, latestIndexDate, remark ) values (?,?,?,?)";
+                int effect = jdbcTemplate.update(psql,
+                        new Object[]{iTimeZone.getChannel(), iTimeZone.getLatestIndexTime(), iTimeZone.getLatestIndexDate(), iTimeZone.getRemark()},
+                        new int[]{Types.VARCHAR, Types.BIGINT, Types.TIMESTAMP, Types.VARCHAR});
+                return effect > 0;
+            }
+        }catch (Exception e){
+            LOG.error(e.getLocalizedMessage(), e);
+        }
+        return false;
     }
 
     /**
@@ -97,11 +128,30 @@ public class ITimeZoneRepositoryImpl implements ITimeZoneRepository{
      */
     public synchronized boolean updateIndexZoneTime(String channel, long time){
         try {
-            Date date = new Date(time);
-            String psql = "update tb_index_zone set latestIndexTime=?, latestIndexDate=? where channel=?";
-            int effect =  jdbcTemplate.update(psql, new Object[]{time, date, channel}, new int[]{Types.BIGINT, Types.TIMESTAMP ,Types.VARCHAR});
-            return effect > 0;
+            if(null != channel && channel.trim().length() > 0 ){
+                time = (time <=0) ? 0 : time;
+                Date date = new Date(time);
+                String psql = "update tb_index_zone set latestIndexTime=?, latestIndexDate=? where channel=?";
+                int effect =  jdbcTemplate.update(psql, new Object[]{time, date, channel}, new int[]{Types.BIGINT, Types.TIMESTAMP ,Types.VARCHAR});
+                return effect > 0;
+            }
         }catch (Exception e){
+            LOG.error(e.getLocalizedMessage(), e);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateIndexZoneTime(long id, String channel, Date latestIndexDate, String remark) {
+        try {
+            if(null != channel && channel.trim().length() > 0 && null != latestIndexDate && id>0){
+                long latestIndexTime = latestIndexDate.getTime();
+                String psql = "update tb_index_zone set latestIndexTime=?, latestIndexDate=?, remark=?, channel=? WHERE id=?";
+                int effect =  jdbcTemplate.update(psql, new Object[]{latestIndexTime, latestIndexDate, remark ,channel, id}, new int[]{Types.BIGINT, Types.TIMESTAMP ,Types.VARCHAR, Types.VARCHAR, Types.BIGINT});
+                return effect > 0;
+            }
+        }catch (Exception e){
+            System.err.println(e.getLocalizedMessage());
             LOG.error(e.getLocalizedMessage(), e);
         }
         return false;
