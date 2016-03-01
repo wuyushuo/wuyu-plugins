@@ -10,7 +10,7 @@
  * Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * Neither the name of the yinyuetai developer nor the names of its
+ * Neither the name of the wuyushuo developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  * Author: git_wuyu@163.com (tencent qq: 2094998377)
@@ -19,10 +19,10 @@
 package com.wuyu.plugin.qiniu.auth;
 
 /**
- * description: YinYueTai server support
- * created on 2015/12/22
- * @author pingdong.pu@yinyuetai.com
- * @version 1.0
+ * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
+ * created on 2016/02/05 by <strong>elon su</strong>
+ * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
+ * @version 1.0.0
  */
 public interface AuthKey {
 

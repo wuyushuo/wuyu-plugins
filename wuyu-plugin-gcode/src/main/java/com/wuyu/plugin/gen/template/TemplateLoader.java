@@ -10,7 +10,7 @@
  * Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * Neither the name of the yinyuetai developer nor the names of its
+ * Neither the name of the wuyushuo developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  * Author: git_wuyu@163.com (tencent qq: 2094998377)
@@ -64,10 +64,4 @@ public class TemplateLoader {
         return templateFiles;
     }
 
-   /* public static void main(String[] args){
-        String templateRoot2 = "E:/YinYueTai/YYT-mid/YYT-midware/com-yyt-autogen/src/main/resources/template";
-        String templateRoot = "template";
-        List<String> templateFileName = TemplateLoader.loadTemplateFiles(templateRoot2);
-        System.out.println(templateFileName);
-    }*/
 }

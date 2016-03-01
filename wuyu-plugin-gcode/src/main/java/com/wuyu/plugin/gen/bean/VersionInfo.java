@@ -10,7 +10,7 @@
  * Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * Neither the name of the yinyuetai developer nor the names of its
+ * Neither the name of the wuyushuo developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  * Author: git_wuyu@163.com (tencent qq: 2094998377)
@@ -29,11 +29,11 @@ import java.util.Date;
  */
 public class VersionInfo {
 
-    private String organization = "yinyuetai";
+    private String organization = "wuyushuo";
 
-    private String organizationURL = "www.yinyuetai.com";
+    private String organizationURL = "www.wuyushuo.com";
 
-    private String author = "pingdong.pu@yinyuetai.com";
+    private String author = "dennisit.pu@wuyushuo.com";
 
     private Date date = new Date();
 

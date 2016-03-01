@@ -10,7 +10,7 @@
  * Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in the
  * documentation and/or other materials provided with the distribution.
- * Neither the name of the yinyuetai developer nor the names of its
+ * Neither the name of the wuyushuo developer nor the names of its
  * contributors may be used to endorse or promote products derived from
  * this software without specific prior written permission.
  * Author: git_wuyu@163.com (tencent qq: 2094998377)
@@ -174,20 +174,4 @@ public class ScanUtils {
         return lists;
     }
 
-
-    /*public static void main(String [] args){
-        //获取扫描到的实体类
-        // 参数1表示应用上下文路径
-        // 参数2表示包路径
-        List<String> names = ScanUtils.scanPackageClasses("E:/YinYueTai/YYT-Platform/stage-provider/mobile-stage-domain/src/main/java/", "com/yinyuetai/mobile/stage/domain", true);
-        System.out.println(names);
-
-        List<String> name2 = ScanUtils.scanPackageClasses("E:/YinYueTai/YYT-Platform/stage-provider/mobile-stage-domain/src/main/java/", "com.yinyuetai.mobile.stage.domain", true);
-        System.out.println(name2);
-
-        // 针对当前工程进行扫描
-        List<String> name3 = ScanUtils.scanPackageClasses("com.yyt.domain", true);
-
-        System.out.println(name3);
-    }*/
 }
