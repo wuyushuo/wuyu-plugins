@@ -32,7 +32,6 @@ import java.util.jar.JarFile;
  * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
  * created on 2016/02/04 by <strong>elon su</strong>
  * email addr (<a href='mailto:git_wuyu@163.com'></>git_wuyu@163.com</a>)
- *
  * @version 1.0.0
  */
 public class FileUtil {

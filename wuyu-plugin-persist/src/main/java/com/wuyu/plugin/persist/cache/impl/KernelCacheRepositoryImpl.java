@@ -102,4 +102,7 @@ public class KernelCacheRepositoryImpl implements KernelCacheRepository {
         redisTemplate.expire(cacheName, 0, TimeUnit.SECONDS);
     }
 
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 }
