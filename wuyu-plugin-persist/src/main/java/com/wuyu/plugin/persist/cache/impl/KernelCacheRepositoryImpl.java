@@ -82,16 +82,14 @@ public class KernelCacheRepositoryImpl implements KernelCacheRepository {
             return null;
         }
         T cacheValue = (T) redisTemplate.opsForValue().get(cacheName);
-        if(null == cacheName){
+        if(null == cacheValue){
             try {
                 cacheValue = callback.execute();
             } catch (Exception e) {
                 LOG.error(e.getLocalizedMessage(), e);
-            } finally {
-                cacheValue = null;
             }
         }
-        return null;
+        return cacheValue;
     }
 
     @Override
