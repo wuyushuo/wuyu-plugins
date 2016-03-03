@@ -26,13 +26,17 @@ import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * organization <a href="http://www.wuyushuo.com">www.wuyushuo.com</a>
@@ -64,8 +68,10 @@ public class AgentFactory {
         }
     }
 
+
     private AgentFactory() {
-        initUserAgentPool(AgentConf.CLIENT_ANGENT_FILE, AgentConf.MOBILE_AGENT_FILE);
+        initClientAgentPool();
+        initMobileAgentPool();
     }
 
     private final static AgentFactory factory = new AgentFactory();
@@ -74,29 +80,42 @@ public class AgentFactory {
         return factory;
     }
 
-    /**
-     * load agent from file pool
-     */
-    public void initUserAgentPool(String clientAgentFile, String mobileAgentFile) {
-        File agentFile = new File(AgentFactory.class.getResource(clientAgentFile).getFile());
-        CounterLine counter = new CounterLine();
-        try {
-            List<String> clientUserAgents = Files.readLines(agentFile, Charsets.UTF_8, counter);
-            LOG.info("load client agent size :" + clientUserAgents.size());
-            AGENT_MULTI_MAP.put(AgentType.CLIENT.name(), clientUserAgents);
-        } catch (IOException e) {
-            LOG.error("load client agent from file : " + clientAgentFile + " error. ", e);
-        }
-        agentFile = new File(AgentFactory.class.getResource(mobileAgentFile).getFile());
-        try {
-            List<String> mobileUserAgents = Files.readLines(agentFile, Charsets.UTF_8, counter);
-            LOG.info("load mobile agent size :" + mobileUserAgents.size());
-            AGENT_MULTI_MAP.put(AgentType.MOBILE.name(), mobileUserAgents);
-        } catch (IOException e) {
-            LOG.error("load client agent from file : " + mobileAgentFile + " error. ", e);
-        }
+    private void initClientAgentPool(){
+        initUserAgentPool(AgentType.CLIENT, AgentConf.CLIENT_ANGENT_FILE);
     }
 
+    public void initMobileAgentPool(){
+        initUserAgentPool(AgentType.MOBILE, AgentConf.MOBILE_AGENT_FILE);
+    }
+
+    public void initUserAgentPool(AgentType agentType, String agentFile) {
+        URL url = Thread.currentThread().getContextClassLoader().getResource(agentFile);
+        CounterLine counter = new CounterLine();
+        if(null != url){
+            try {
+                String protocol = url.getProtocol();
+                if (protocol.equals("file")) {
+                    List<String> agents = Files.readLines(new File(url.getFile()), Charsets.UTF_8, counter);
+                    LOG.info("load agent size :" + agents.size());
+                    AGENT_MULTI_MAP.put(agentType.name(), agents);
+                } else if (protocol.equals("jar")) {
+                    JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(jarURLConnection.getInputStream()));
+                    List<String> agents = new ArrayList<String>();
+                    String line = null;
+                    while (null!=(line = reader.readLine())){
+                        if (!line.startsWith("#") && !Strings.isNullOrEmpty(line)) {
+                            agents.add(line);
+                        }
+                    }
+                    LOG.info("load agent size :" + agents.size());
+                    AGENT_MULTI_MAP.put(agentType.name(), agents);
+                }
+            }catch (Exception e){
+                LOG.error(e.getLocalizedMessage(), e);
+            }
+        }
+    }
 
     /**
      * @param agentType mobile/client/all
@@ -122,6 +141,10 @@ public class AgentFactory {
             }
         }
         return null;
+    }
+
+    public static void main(String[] args){
+        System.out.println(AgentFactory.getInstance().getUserAgent(AgentType.RANDOM));
     }
 
 }

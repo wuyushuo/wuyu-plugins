@@ -27,7 +27,7 @@ package com.wuyu.plugin.agent;
  */
 public class AgentConf {
 
-    public final static String CLIENT_ANGENT_FILE = "/fetch-agent/clientUA.txt";
-    public final static String MOBILE_AGENT_FILE = "/fetch-agent/mobileUA.txt";
+    public final static String CLIENT_ANGENT_FILE = "fetch-agent/clientUA.txt";
+    public final static String MOBILE_AGENT_FILE = "fetch-agent/mobileUA.txt";
 
 }
