@@ -39,6 +39,7 @@
         <module>wuyu-plugin-qiniu</module>
         <module>wuyu-plugin-wfilter</module>
         <module>wuyu-plugin-wcrite</module>
+        <module>wuyu-plugin-agent</module>
     </modules>
 
     <developers>
