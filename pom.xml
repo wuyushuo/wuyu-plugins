@@ -75,6 +75,7 @@
         <ansj_seg.version>3.0</ansj_seg.version>
         <guava.version>18.0</guava.version>
         <jackson.version>2.4.4</jackson.version>
+        <yuicompressor.version>2.4.8</yuicompressor.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-collection.version>3.2</commons-collection.version>
         <commons-logging.version>1.2</commons-logging.version>
