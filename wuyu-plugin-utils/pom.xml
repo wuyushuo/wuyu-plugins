@@ -108,6 +108,16 @@
             <artifactId>yuicompressor</artifactId>
             <version>${yuicompressor.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okHttp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wuyushuo</groupId>
+            <artifactId>wuyu-plugin-agent</artifactId>
+            <version>${wuyu.plugin.agent.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

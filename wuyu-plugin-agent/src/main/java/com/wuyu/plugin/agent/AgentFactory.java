@@ -68,7 +68,6 @@ public class AgentFactory {
         }
     }
 
-
     private AgentFactory() {
         initClientAgentPool();
         initMobileAgentPool();
